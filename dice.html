@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Roller Game: Two Players</title>
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4, #fbc2eb);
+            color: #fff;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .dice-container {
+            margin: 20px auto;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            color: #333;
+            font-size: 4rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            animation: glow 2s infinite alternate;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px #ff9a9e, 0 0 20px #fad0c4, 0 0 30px #fbc2eb;
+            }
+            100% {
+                box-shadow: 0 0 20px #ff7eb3, 0 0 30px #fcb1d6, 0 0 40px #fce4ec;
+            }
+        }
+
+        #rollButton {
+            background-color: #fff;
+            color: #333;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        #rollButton:hover {
+            background-color: #ff9a9e;
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        #output {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            50% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 80%;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #ff9a9e;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎲 Two-Player Dice Roller 🎲</h1>
+    <div id="dice" class="dice-container" aria-live="polite" aria-atomic="true">⚀</div>
+    <button id="rollButton">Roll the Dice</button>
+    <div id="output"></div>
+    <div id="scoreboard" style="margin-top: 20px; font-size: 1.2rem;"></div>
+
+    <!-- Table for Dice Roll History -->
+    <table id="historyTable">
+        <thead>
+            <tr>
+                <th>Roll #</th>
+                <th>Player</th>
+                <th>Dice Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dynamic Rows will be added here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Game state
+        let currentPlayer = 1;
+        const scores = { player1: 0, player2: 0 };
+        let rollsCount = 0;
+        const history = []; // Array to store roll history
+
+        // Function to generate random dice rolls
+        function rollDice() {
+            return Math.floor(Math.random() * 6) + 1; // Random number between 1 and 6
+        }
+
+        // Function to update the dice roll history table
+        function updateHistoryTable(rollNumber, player, diceValue) {
+            const tableBody = document.querySelector("#historyTable tbody");
+            const newRow = document.createElement("tr");
+
+            newRow.innerHTML = `
+                <td>${rollNumber}</td>
+                <td>${player}</td>
+                <td>${diceValue}</td>
+            `;
+
+            tableBody.appendChild(newRow);
+        }
+
+        // Function to handle dice roll
+        function handleRoll() {
+            if (rollsCount >= 10) return; // End game after 10 rolls (5 per player)
+
+            const diceNumber = rollDice();
+            const diceElement = document.getElementById("dice");
+            const outputElement = document.getElementById("output");
+            const scoreboard = document.getElementById("scoreboard");
+
+            // Dice faces
+            const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+
+            // Add shake animation
+            diceElement.style.animation = "shake 0.5s";
+
+            setTimeout(() => {
+                diceElement.style.animation = ""; // Remove animation
+                diceElement.textContent = diceFaces[diceNumber - 1]; // Update dice face
+
+                // Update scores
+                const player = currentPlayer === 1 ? "Player 1" : "Player 2";
+                if (currentPlayer === 1) {
+                    scores.player1 += diceNumber;
+                    outputElement.textContent = `Player 1 rolled a ${diceNumber}! 🎉`;
+                } else {
+                    scores.player2 += diceNumber;
+                    outputElement.textContent = `Player 2 rolled a ${diceNumber}! 🎉`;
+                }
+
+                // Update scoreboard
+                scoreboard.textContent = `Scores: Player 1 = ${scores.player1}, Player 2 = ${scores.player2}`;
+
+                // Update roll history
+                history.push({ roll: rollsCount + 1, player, value: diceNumber });
+                updateHistoryTable(rollsCount + 1, player, diceNumber);
+
+                // Switch player and update roll count
+                rollsCount++;
+                currentPlayer = currentPlayer === 1 ? 2 : 1;
+
+                // Check if game is over
+                if (rollsCount === 10) {
+                    const winner =
+                        scores.player1 > scores.player2
+                            ? "Player 1 wins! 🏆"
+                            : scores.player2 > scores.player1
+                            ? "Player 2 wins! 🏆"
+                            : "It's a tie! 🤝";
+                    outputElement.textContent = `Game Over! ${winner}`;
+                }
+            }, 500);
+        }
+
+        // Add event listener to the button
+        document.getElementById("rollButton").addEventListener("click", handleRoll);
+    </script>
+</body>
+</html>

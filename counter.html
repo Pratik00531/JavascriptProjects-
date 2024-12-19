@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Counter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+      background-color: black;
+    }
+
+    .card{
+        justify-content: center;
+        background-color: white;
+        border-radius: 30px;
+        position: relative;
+        padding: 30px;
+        height: 50%;
+        width: 50%; 
+        margin-left: 20%;
+        margin-top: 10%;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #333;
+    }
+
+    #counter {
+      font-size: 4rem;
+      margin: 20px;
+      color: #444;
+    }
+
+    button {
+      font-size: 1.2rem;
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .increment {
+      background-color: #28a745;
+    }
+
+    .decrement {
+      background-color: #dc3545;
+    }
+
+    .reset {
+      background-color: #007bff;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Counter</h1>
+        <div id="counter">0</div>
+        <button class="increment" onclick="increment()">Increment</button>
+        <button class="decrement" onclick="decrement()">Decrement</button>
+        <button class="reset" onclick="reset()">Reset</button>
+    </div>
+  
+  <script>
+    let count = 0;
+
+    function updateCounter() {
+      document.getElementById('counter').innerText = count;
+    }
+
+    function increment() {
+      count++;
+      updateCounter();
+    }
+
+    function decrement() {
+      count--;
+      updateCounter();
+    }
+
+    function reset() {
+      count = 0;
+      updateCounter();
+    }
+  </script>
+</body>
+</html>
