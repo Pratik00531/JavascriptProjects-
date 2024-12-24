@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teachable Machine - Car Model</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <h1>Car Model Detection</h1>
+    <p>Upload an image of a car(BMW, Ford Mustang , Bentley , Maseretti , Hyundai ,Porsche), and the model will classify it.</p>
+    <input type="file" id="upload-image" accept="image/*">
+    <img id="uploaded-image" alt="Uploaded Car Image" style="max-width: 300px; display: none;">
+    <h2 id="result"></h2>
+    <script src="./app.js"></script>
+</body>
+</html>
