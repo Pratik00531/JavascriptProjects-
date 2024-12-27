@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance System</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Attendance Marking System</h1>
+  <div class="video-container">
+    <video id="webcam" autoplay playsinline width="640" height="480"></video>
+  </div>
+  <div class="attendance-container">
+    <h2>Attendance</h2>
+    <ul id="attendance-list">
+      <li>Pratik: <span id="Pratik-status">Absent</span></li>
+      <li>Darsh: <span id="Darsh-status">Absent</span></li>
+      <li>Vishang: <span id="Vishang-status">Absent</span></li>
+      <li>Harsh: <span id="Harsh-status">Absent</span></li>
+    </ul>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+  <script src="scripts.js"></script>
+  
+</body>
+</html>
