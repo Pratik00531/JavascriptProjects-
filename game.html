@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Guess the Number Game</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: radial-gradient(circle, #ff7eb3, #ff758c, #ff5e5b);
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            width: 400px;
+            backdrop-filter: blur(15px);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            font-weight: 400;
+            color: #ffeee9;
+        }
+
+        label {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            display: block;
+            color: #ffd6c9;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            width: 100%;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #ff99a8;
+            background-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 10px rgba(255, 153, 168, 0.6);
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #ff4d6d;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e63950;
+            transform: translateY(-3px);
+        }
+
+        button:active {
+            transform: translateY(2px);
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .correct {
+            color: #3cba92;
+            background-color: rgba(60, 186, 146, 0.3);
+        }
+
+        .too-high {
+            color: #f86c6b;
+            background-color: rgba(248, 108, 107, 0.3);
+        }
+
+        .too-low {
+            color: #ffd700;
+            background-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .error {
+            color: #fff;
+            background-color: rgba(255, 99, 132, 0.3);
+        }
+
+        /* Floating Stars */
+        @keyframes floatingStars {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-20px);
+            }
+        }
+
+        .star {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            animation: floatingStars 3s ease-in-out infinite alternate;
+        }
+
+        .star:nth-child(1) {
+            width: 10px; height: 10px; left: 20%; top: 40%; animation-duration: 4s; animation-delay: 0s;
+        }
+
+        .star:nth-child(2) {
+            width: 15px; height: 15px; left: 40%; top: 60%; animation-duration: 6s; animation-delay: 1s;
+        }
+
+        .star:nth-child(3) {
+            width: 8px; height: 8px; left: 70%; top: 20%; animation-duration: 5s; animation-delay: 2s;
+        }
+
+        .star:nth-child(4) {
+            width: 12px; height: 12px; left: 90%; top: 50%; animation-duration: 7s; animation-delay: 3s;
+        }
+
+        .star:nth-child(5) {
+            width: 20px; height: 20px; left: 50%; top: 80%; animation-duration: 3s; animation-delay: 4s;
+        }
+        .home-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 20px;
+            background: radial-gradient(circle, #ff7eb3, #ff758c, #ff5e5b);/* Gradient from coral to a deeper red */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            text-decoration: none;
+            text-align: center;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
+        .home-btn:hover {
+            background: radial-gradient(circle, #ff7eb3, #ff758c, #ff5e5b); /* Inverse gradient for hover */
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Slight shadow for hover effect */
+        }
+
+        .home-btn:active {
+            background: #ff7eb3; /* Dark red when the button is clicked */
+            transform: scale(0.98); /* Slight shrink effect on click */
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="home-btn">Home</a>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+
+    <div class="container">
+        <h1>Guess the Number</h1>
+        <p>Set a range and try to guess the number within it!</p>
+        <label for="startRange">Start of Range:</label>
+        <input type="number" id="startRange" placeholder="Start" min="1" max="100" />
+        <label for="endRange">End of Range:</label>
+        <input type="number" id="endRange" placeholder="End" min="1" max="100" />
+        <button id="setRange">Set Range</button>
+        
+        <p>Guess a number between <strong id="rangeLabel">1</strong> and <strong id="endRangeLabel">100</strong></p>
+        <input type="number" id="userGuess" placeholder="Enter your guess" />
+        <button id="submitGuess">Submit Guess</button>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const userGuessInput = document.getElementById('userGuess')
+        const submitButton = document.getElementById('submitGuess')
+        const messageElement = document.getElementById('message')
+        const startRangeInput = document.getElementById('startRange')
+        const endRangeInput = document.getElementById('endRange')
+        const rangeLabel = document.getElementById('rangeLabel')
+        const endRangeLabel = document.getElementById('endRangeLabel')
+        const setRangeButton = document.getElementById('setRange')
+
+        let randomNumber, startRange, endRange
+
+        // Set the range and random number
+        function setRange() 
+        {
+            startRange = Number(startRangeInput.value)
+            endRange = Number(endRangeInput.value)
+
+            if (startRange >= endRange || startRange < 1 || endRange > 100) 
+            {
+                messageElement.textContent = "Please enter a valid range where Start < End and both are between 1 and 100."
+                messageElement.className = "error"
+                return
+            }
+
+            randomNumber = Math.floor(Math.random() * (endRange - startRange + 1)) + startRange
+            rangeLabel.textContent = startRange
+            endRangeLabel.textContent = endRange
+            messageElement.textContent = "Now guess the number!"
+            messageElement.className = ""
+        }
+
+        // Function to handle the guess
+        function checkGuess() 
+        {
+            const userGuess = Number(userGuessInput.value)
+
+            // Validate the guess
+            if (!userGuess || userGuess < startRange || userGuess > endRange) 
+            {
+                messageElement.textContent = `Please enter a number between ${startRange} and ${endRange}.`
+                messageElement.className = "error"
+                return
+            }
+
+            // Check if the guess is correct, too high or too low
+            if (userGuess === randomNumber) 
+            {
+                messageElement.textContent = "🎉 Correct! You've guessed the number!"
+                messageElement.className = "correct"
+            } 
+            else if (userGuess > randomNumber) 
+            {
+                messageElement.textContent = "❌ Too high! Try a smaller number."
+                messageElement.className = "too-high"
+            } 
+            else 
+            {
+                messageElement.textContent = "❌ Too low! Try a larger number."
+                messageElement.className = "too-low"
+            }
+
+            // Reset the input
+            userGuessInput.value = ''
+            userGuessInput.focus()
+        }
+
+        // Add event listeners
+        setRangeButton.addEventListener('click', setRange)
+        submitButton.addEventListener('click', checkGuess)
+
+        // Allow submitting with the Enter key
+        userGuessInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') 
+            {
+                checkGuess();
+            }
+        })
+    </script>
+
+</body>
+</html>
